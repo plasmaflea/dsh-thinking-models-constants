@@ -9,7 +9,7 @@
 | 关系表 | `relation-table/` | `index.md` | v1 | 2026-10-19 | 9 类关系 + 1 套秩矩阵 + 3 条校准候选 | `web-association-exhaustive` | `<id>/tree/` |
 | 结构表 | `structure-tree/` | `index.md` | v2.4 | 2026-10-18 | 12 基 + 2 修饰 + 3 组合规则 + 12 条命名复合 | `structure-isomorphism-pointmass-substitution` | `<id>/tree/` |
 
-**仓库版本**：1.0.0（管发布节奏，不管各库内容）
+**仓库版本**：1.1.1（管发布节奏，不管各库内容）
 
 ---
 
