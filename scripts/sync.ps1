@@ -5,12 +5,33 @@
 
 param(
     [switch]$Check,
-    [string]$SkillsRepo = 'D:\DeepSeek-levelup\dsh-thinking-models',
-    [string]$InstallDir = "$env:USERPROFILE\.dsh\skills"
+    [string]$SkillsRepo = '',
+    [string]$InstallDir = ''
 )
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+
+# 消费方路径解析：参数 > 环境变量 > 同级目录自动发现 > 报错
+if (-not $InstallDir) {
+    $InstallDir = if ($env:DSH_THINKING_INSTALL_DIR) { $env:DSH_THINKING_INSTALL_DIR } else { Join-Path $env:USERPROFILE '.dsh\skills' }
+}
+if (-not $SkillsRepo) {
+    if ($env:DSH_THINKING_SKILLS_REPO) {
+        $SkillsRepo = $env:DSH_THINKING_SKILLS_REPO
+    } else {
+        $sibling = Join-Path (Split-Path -Parent $root) 'dsh-thinking-models'
+        if (Test-Path -LiteralPath (Join-Path $sibling 'forest-hierarchical-backtracking')) { $SkillsRepo = $sibling }
+    }
+}
+if (-not $SkillsRepo) {
+    Write-Host 'ERROR: 找不到技能仓库 dsh-thinking-models。' -ForegroundColor Red
+    Write-Host '  三选一：'
+    Write-Host '    1) 传参        .\scripts\sync.cmd -SkillsRepo <你的 skills 仓库路径>'
+    Write-Host '    2) 设环境变量  $env:DSH_THINKING_SKILLS_REPO = "<路径>"'
+    Write-Host '    3) 把 dsh-thinking-models 与 dsh-thinking-models-constants clone 到同一父目录'
+    exit 2
+}
 
 $libs = @(
     @{ Name = 'knowledge-tree'; Skill = 'forest-hierarchical-backtracking' },

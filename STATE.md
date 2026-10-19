@@ -19,7 +19,7 @@
 | 远端 | `https://github.com/plasmaflea/dsh-thinking-models-constants.git`（origin） |
 | 可见性 | PUBLIC |
 | 默认分支 | `main` |
-| 当前版本 | 见 `VERSION`（1.0.0）／标签 `v1.0.0` |
+| 当前版本 | 见 `VERSION`（1.0.1）／标签 `v1.0.1` |
 | 消费方 | `dsh-thinking-models` 的三个作答技能 |
 | git 身份 | `plasmablue <1935153750@qq.com>` |
 

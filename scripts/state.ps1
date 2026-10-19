@@ -4,12 +4,25 @@
 
 param(
     [switch]$Verify,
-    [string]$SkillsRepo = 'D:\DeepSeek-levelup\dsh-thinking-models',
-    [string]$InstallDir = "$env:USERPROFILE\.dsh\skills"
+    [string]$SkillsRepo = '',
+    [string]$InstallDir = ''
 )
 
 $ErrorActionPreference = 'Continue'
 $root = Split-Path -Parent $PSScriptRoot
+
+# 消费方路径解析：参数 > 环境变量 > 同级目录自动发现；两处都没有时只报仓库自身信息
+if (-not $InstallDir) {
+    $InstallDir = if ($env:DSH_THINKING_INSTALL_DIR) { $env:DSH_THINKING_INSTALL_DIR } else { Join-Path $env:USERPROFILE '.dsh\skills' }
+}
+if (-not $SkillsRepo) {
+    if ($env:DSH_THINKING_SKILLS_REPO) {
+        $SkillsRepo = $env:DSH_THINKING_SKILLS_REPO
+    } else {
+        $sibling = Join-Path (Split-Path -Parent $root) 'dsh-thinking-models'
+        if (Test-Path -LiteralPath (Join-Path $sibling 'forest-hierarchical-backtracking')) { $SkillsRepo = $sibling }
+    }
+}
 
 $libs = @(
     @{ Name = 'knowledge-tree'; Skill = 'forest-hierarchical-backtracking' },
@@ -60,7 +73,7 @@ foreach ($lib in $libs) {
     $idx = Join-Path $libDir 'index.md'
     $ver = ''
     if (Test-Path -LiteralPath $idx) {
-        $head2 = @(Get-Content -LiteralPath $idx -TotalCount 6)
+        $head2 = @(Get-Content -LiteralPath $idx -TotalCount 12)
         $line = $head2 | Where-Object { $_ -match '版本\*\*：' } | Select-Object -First 1
         if ($line) { $ver = $line.Trim() }
     }
@@ -71,12 +84,16 @@ foreach ($lib in $libs) {
 
 Write-Host ''
 Write-Host '=== COPIES (repo lib <-> skills repo <-> installed) ===' -ForegroundColor Cyan
+Write-Host ("  skills repo : " + $(if ($SkillsRepo) { $SkillsRepo } else { '(not set — pass -SkillsRepo or DSH_THINKING_SKILLS_REPO)' }))
+Write-Host ("  installed   : " + $(if ($InstallDir) { $InstallDir } else { '(not set)' }))
 $drift = 0
 foreach ($lib in $libs) {
     $libDir = Join-Path $root $lib.Name
-    $repoTree = Join-Path $SkillsRepo ($lib.Skill + '\tree')
-    $instTree = Join-Path $InstallDir ($lib.Skill + '\tree')
-    foreach ($pair in @(@{ Label = 'skills-repo'; Dir = $repoTree }, @{ Label = 'installed'; Dir = $instTree })) {
+    $pairs = @()
+    if ($SkillsRepo) { $pairs += @{ Label = 'skills-repo'; Dir = (Join-Path $SkillsRepo ($lib.Skill + '\tree')) } }
+    if ($InstallDir) { $pairs += @{ Label = 'installed'; Dir = (Join-Path $InstallDir ($lib.Skill + '\tree')) } }
+    if ($pairs.Count -eq 0) { break }
+    foreach ($pair in $pairs) {
         if (-not (Test-Path -LiteralPath $pair.Dir)) {
             Write-Host ("MISSING {0,-12} {1,-16} {2}" -f $pair.Label, $lib.Name, $pair.Dir) -ForegroundColor Yellow
             $drift++

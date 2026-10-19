@@ -4,6 +4,15 @@
 
 **标签规则**：每个 `VERSION` 对应一个 `vX.Y.Z` 标签；库自身的 `vN` 不进标签名（避免与仓库版本混淆）。
 
+## [1.0.1] - 2026-10-19
+
+### Fixed
+- `scripts/sync.ps1` / `scripts/state.ps1` 不再把本机路径写死为参数默认值（原为 `D:\DeepSeek-levelup\dsh-thinking-models`，外部玩家 clone 后直接运行会指向不存在的路径）。解析顺序改为：参数 → 环境变量 `DSH_THINKING_SKILLS_REPO` / `DSH_THINKING_INSTALL_DIR` → 同级目录自动发现（与 `dsh-thinking-models` clone 在同一父目录即免参数）→ 报错并打印三种解法（`exit 2`）。
+- `scripts/state.ps1` 的库版本行只扫索引前 6 行，而认知树索引的 `**树版本**` 在第 7 行，导致 LIBS 版本列空白——改为前 12 行。
+
+### Changed
+- `README` §3 补「换台机器不用改脚本」的路径解析说明。
+
 ## [1.0.0] - 2026-10-19
 
 首次发布：把三个思维模型的常量层从 `dsh-thinking-models` 拆出，成为独立仓库。

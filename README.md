@@ -53,6 +53,8 @@
 # 4 再校验、提交、打标签、推送
 ```
 
+**换台机器不用改脚本**：路径解析顺序 = 参数 `-SkillsRepo` / `-InstallDir` > 环境变量 `DSH_THINKING_SKILLS_REPO` / `DSH_THINKING_INSTALL_DIR` > 同级目录自动发现（与 `dsh-thinking-models` clone 在同一父目录时连参数都不用传）> 报错并打印三种解法。安装位缺省为 `$env:USERPROFILE\.dsh\skills`。
+
 ---
 
 ## 4. 与技能仓库的关系
