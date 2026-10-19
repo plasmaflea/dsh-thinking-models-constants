@@ -5,7 +5,7 @@
 
 | 库 | 目录 | 索引 | 版本 | 核查日期 | 条目数 | 消费方技能 | 技能内副本路径 |
 |---|---|---|---|---|---|---|---|
-| 认知树 | `knowledge-tree/` | `index.md` | v1 | 2026-10-18 | 2 个节点（software / win-service）+ 4 个待建候选 | `forest-hierarchical-backtracking` | `<id>/tree/` |
+| 认知树 | `knowledge-tree/` | `index.md` | v2 | 2026-10-19 | 双轴：族轴 6 族（1 建 + 5 候选）+ 域轴 2 节点（software / win-service）+ 4 个域候选 | `forest-hierarchical-backtracking` | `<id>/tree/` |
 | 关系表 | `relation-table/` | `index.md` | v1 | 2026-10-19 | 9 类关系 + 1 套秩矩阵 + 3 条校准候选 | `web-association-exhaustive` | `<id>/tree/` |
 | 结构表 | `structure-tree/` | `index.md` | v2.4 | 2026-10-18 | 12 基 + 2 修饰 + 3 组合规则 + 12 条命名复合 | `structure-isomorphism-pointmass-substitution` | `<id>/tree/` |
 
@@ -17,7 +17,7 @@
 
 | 库 | 文件 | 说明 |
 |---|---|---|
-| `knowledge-tree/` | 3 | 索引 + 2 节点 |
+| `knowledge-tree/` | 4 | 索引 + 2 域节点 + 1 族节点 |
 | `relation-table/` | 3 | 索引 + 正文 + 校准记录 |
 | `structure-tree/` | 13 | 索引 + 12 节点 |
 
