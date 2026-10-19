@@ -1,0 +1,7 @@
+# 本仓库是纯文本常量库，没有构建产物；只忽略本地临时文件
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak
+.vscode/
+.idea/
